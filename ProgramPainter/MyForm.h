@@ -83,6 +83,7 @@ namespace ProgramPainter {
 
 	private: System::Windows::Forms::ToolStripButton^ toolStripButton2;
 	private: System::Windows::Forms::ToolStripMenuItem^ bGRToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ lABToolStripMenuItem;
 
 
 
@@ -131,6 +132,7 @@ namespace ProgramPainter {
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->lABToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripContainer1->ContentPanel->SuspendLayout();
 			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
 			this->toolStripContainer1->SuspendLayout();
@@ -198,6 +200,7 @@ namespace ProgramPainter {
 			this->numericUpDown1->TabIndex = 1;
 			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 16, 0, 0, 0 });
 			this->numericUpDown1->Visible = false;
+			this->numericUpDown1->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericUpDown1_ValueChanged);
 			// 
 			// menuStrip1
 			// 
@@ -253,9 +256,9 @@ namespace ProgramPainter {
 			// 
 			// convertToolStripMenuItem
 			// 
-			this->convertToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+			this->convertToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
 				this->rGBToolStripMenuItem,
-					this->grayToolStripMenuItem, this->hSVToolStripMenuItem, this->bGRToolStripMenuItem
+					this->grayToolStripMenuItem, this->hSVToolStripMenuItem, this->bGRToolStripMenuItem, this->lABToolStripMenuItem
 			});
 			this->convertToolStripMenuItem->Name = L"convertToolStripMenuItem";
 			this->convertToolStripMenuItem->Size = System::Drawing::Size(74, 24);
@@ -264,28 +267,28 @@ namespace ProgramPainter {
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
 			// 
 			// bGRToolStripMenuItem
 			// 
 			this->bGRToolStripMenuItem->Name = L"bGRToolStripMenuItem";
-			this->bGRToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->bGRToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->bGRToolStripMenuItem->Text = L"BGR";
 			this->bGRToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::bGRToolStripMenuItem_Click);
 			// 
@@ -396,6 +399,13 @@ namespace ProgramPainter {
 			// openFileDialog
 			// 
 			this->openFileDialog->FileName = L"openFileDialog";
+			// 
+			// lABToolStripMenuItem
+			// 
+			this->lABToolStripMenuItem->Name = L"lABToolStripMenuItem";
+			this->lABToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->lABToolStripMenuItem->Text = L"LAB";
+			this->lABToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::lABToolStripMenuItem_Click);
 			// 
 			// MyForm
 			// 
@@ -675,5 +685,20 @@ namespace ProgramPainter {
 
 	
 
+private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void lABToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	// Lock Bitmap Bits
+	Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+	System::Drawing::Imaging::BitmapData^ bmpData =
+		bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+	// Using OpenCV: Create Image with data pointer
+	Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+	// Do OpenCV function
+	cvtColor(image, image, COLOR_BGR2Lab);
+	// Unlock Bitmap Bits
+	bmp->UnlockBits(bmpData);
+	pictureBox1->Image = bmp; // Show result
+}
 };
 }
