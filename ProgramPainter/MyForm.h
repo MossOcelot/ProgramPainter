@@ -2,6 +2,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
 
 using namespace cv;
 
@@ -74,14 +75,19 @@ namespace ProgramPainter {
 
 
 	private: System::Windows::Forms::ToolStripMenuItem^ typeLinesToolStripMenuItem;
-	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+
 	private: System::Windows::Forms::ToolStripMenuItem^ lineToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ dotToolStripMenuItem;
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::ToolStripButton^ CircleLine;
 	private: System::Windows::Forms::ToolStripButton^ squareLine;
+	private: System::Windows::Forms::ToolStripButton^ FreeDraw;
 
-	private: System::Windows::Forms::ToolStripButton^ toolStripButton2;
+
+
+
+	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
 
 
 
@@ -116,6 +122,8 @@ namespace ProgramPainter {
 			this->rGBToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->grayToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->hSVToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->bGRToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->lABToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->captureToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->typeLinesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->lineToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -126,9 +134,10 @@ namespace ProgramPainter {
 			this->ellipseLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->CircleLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->squareLine = (gcnew System::Windows::Forms::ToolStripButton());
-			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->FreeDraw = (gcnew System::Windows::Forms::ToolStripButton());
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
 			this->toolStripContainer1->ContentPanel->SuspendLayout();
 			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
 			this->toolStripContainer1->SuspendLayout();
@@ -146,18 +155,20 @@ namespace ProgramPainter {
 			// 
 			this->toolStripContainer1->ContentPanel->Controls->Add(this->panel1);
 			this->toolStripContainer1->ContentPanel->Controls->Add(this->numericUpDown1);
-			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(489, 242);
+			this->toolStripContainer1->ContentPanel->Margin = System::Windows::Forms::Padding(4);
+			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(652, 297);
 			this->toolStripContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->toolStripContainer1->Location = System::Drawing::Point(0, 0);
+			this->toolStripContainer1->Margin = System::Windows::Forms::Padding(4);
 			this->toolStripContainer1->Name = L"toolStripContainer1";
-			this->toolStripContainer1->Size = System::Drawing::Size(489, 291);
+			this->toolStripContainer1->Size = System::Drawing::Size(652, 358);
 			this->toolStripContainer1->TabIndex = 0;
 			this->toolStripContainer1->Text = L"toolStripContainer1";
 			// 
 			// toolStripContainer1.TopToolStripPanel
 			// 
-			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->menuStrip1);
 			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->toolStrip);
+			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->menuStrip1);
 			// 
 			// panel1
 			// 
@@ -165,17 +176,18 @@ namespace ProgramPainter {
 			this->panel1->Controls->Add(this->pictureBox1);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panel1->Location = System::Drawing::Point(0, 0);
+			this->panel1->Margin = System::Windows::Forms::Padding(4);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(452, 242);
+			this->panel1->Size = System::Drawing::Size(603, 297);
 			this->panel1->TabIndex = 0;
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pictureBox1->Location = System::Drawing::Point(0, 0);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(4);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(452, 242);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->Size = System::Drawing::Size(603, 330);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox_MouseDown);
@@ -185,23 +197,26 @@ namespace ProgramPainter {
 			// numericUpDown1
 			// 
 			this->numericUpDown1->Dock = System::Windows::Forms::DockStyle::Right;
-			this->numericUpDown1->Location = System::Drawing::Point(452, 0);
+			this->numericUpDown1->Location = System::Drawing::Point(603, 0);
+			this->numericUpDown1->Margin = System::Windows::Forms::Padding(4);
 			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(37, 20);
+			this->numericUpDown1->Size = System::Drawing::Size(49, 22);
 			this->numericUpDown1->TabIndex = 1;
 			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 16, 0, 0, 0 });
 			this->numericUpDown1->Visible = false;
+			this->numericUpDown1->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericUpDown1_ValueChanged);
 			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->Dock = System::Windows::Forms::DockStyle::None;
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
 				this->fileToolStripMenuItem,
 					this->convertToolStripMenuItem, this->captureToolStripMenuItem, this->typeLinesToolStripMenuItem
 			});
-			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Location = System::Drawing::Point(0, 31);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(489, 24);
+			this->menuStrip1->Size = System::Drawing::Size(652, 30);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -212,72 +227,86 @@ namespace ProgramPainter {
 					this->saveToolStripMenuItem, this->saveAsToolStripMenuItem, this->exitToolStripMenuItem
 			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(46, 26);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->openToolStripMenuItem->Text = L"Open";
 			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveToolStripMenuItem->Text = L"Save";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveAsToolStripMenuItem->Text = L"Save As";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
 			// convertToolStripMenuItem
 			// 
-			this->convertToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+			this->convertToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
 				this->rGBToolStripMenuItem,
-					this->grayToolStripMenuItem, this->hSVToolStripMenuItem
+					this->grayToolStripMenuItem, this->hSVToolStripMenuItem, this->bGRToolStripMenuItem, this->lABToolStripMenuItem
 			});
 			this->convertToolStripMenuItem->Name = L"convertToolStripMenuItem";
-			this->convertToolStripMenuItem->Size = System::Drawing::Size(61, 20);
+			this->convertToolStripMenuItem->Size = System::Drawing::Size(74, 26);
 			this->convertToolStripMenuItem->Text = L"Convert";
 			// 
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
+			// 
+			// bGRToolStripMenuItem
+			// 
+			this->bGRToolStripMenuItem->Name = L"bGRToolStripMenuItem";
+			this->bGRToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->bGRToolStripMenuItem->Text = L"BGR";
+			this->bGRToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::bGRToolStripMenuItem_Click);
+			// 
+			// lABToolStripMenuItem
+			// 
+			this->lABToolStripMenuItem->Name = L"lABToolStripMenuItem";
+			this->lABToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->lABToolStripMenuItem->Text = L"LAB";
+			this->lABToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::lABToolStripMenuItem_Click);
 			// 
 			// captureToolStripMenuItem
 			// 
 			this->captureToolStripMenuItem->Name = L"captureToolStripMenuItem";
-			this->captureToolStripMenuItem->Size = System::Drawing::Size(61, 20);
+			this->captureToolStripMenuItem->Size = System::Drawing::Size(75, 26);
 			this->captureToolStripMenuItem->Text = L"Capture";
 			// 
 			// typeLinesToolStripMenuItem
@@ -287,34 +316,34 @@ namespace ProgramPainter {
 					this->dotToolStripMenuItem
 			});
 			this->typeLinesToolStripMenuItem->Name = L"typeLinesToolStripMenuItem";
-			this->typeLinesToolStripMenuItem->Size = System::Drawing::Size(70, 20);
+			this->typeLinesToolStripMenuItem->Size = System::Drawing::Size(87, 24);
 			this->typeLinesToolStripMenuItem->Text = L"TypeLines";
 			// 
 			// lineToolStripMenuItem
 			// 
 			this->lineToolStripMenuItem->Name = L"lineToolStripMenuItem";
-			this->lineToolStripMenuItem->Size = System::Drawing::Size(96, 22);
+			this->lineToolStripMenuItem->Size = System::Drawing::Size(119, 26);
 			this->lineToolStripMenuItem->Text = L"Line";
 			// 
 			// dotToolStripMenuItem
 			// 
 			this->dotToolStripMenuItem->Name = L"dotToolStripMenuItem";
-			this->dotToolStripMenuItem->Size = System::Drawing::Size(96, 22);
+			this->dotToolStripMenuItem->Size = System::Drawing::Size(119, 26);
 			this->dotToolStripMenuItem->Text = L"Dot";
 			// 
 			// toolStrip
 			// 
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
+			this->toolStrip->ImageScalingSize = System::Drawing::Size(20, 20);
 			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {
 				this->colorPicker, this->DrawLine,
-					this->ellipseLine, this->CircleLine, this->squareLine, this->toolStripButton2
+					this->ellipseLine, this->CircleLine, this->squareLine, this->FreeDraw
 			});
-			this->toolStrip->Location = System::Drawing::Point(4, 24);
+			this->toolStrip->Location = System::Drawing::Point(4, 0);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(181, 25);
+			this->toolStrip->Size = System::Drawing::Size(187, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
-			this->toolStrip->Visible = false;
 			// 
 			// colorPicker
 			// 
@@ -322,7 +351,7 @@ namespace ProgramPainter {
 			this->colorPicker->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"colorPicker.Image")));
 			this->colorPicker->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->colorPicker->Name = L"colorPicker";
-			this->colorPicker->Size = System::Drawing::Size(23, 22);
+			this->colorPicker->Size = System::Drawing::Size(29, 24);
 			this->colorPicker->Text = L"colorPicker";
 			this->colorPicker->Click += gcnew System::EventHandler(this, &MyForm::colorPickerButton_Click);
 			// 
@@ -332,7 +361,7 @@ namespace ProgramPainter {
 			this->DrawLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"DrawLine.Image")));
 			this->DrawLine->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->DrawLine->Name = L"DrawLine";
-			this->DrawLine->Size = System::Drawing::Size(23, 22);
+			this->DrawLine->Size = System::Drawing::Size(29, 24);
 			this->DrawLine->Text = L"DrawLine";
 			this->DrawLine->Click += gcnew System::EventHandler(this, &MyForm::DrawLine_Click);
 			// 
@@ -342,7 +371,7 @@ namespace ProgramPainter {
 			this->ellipseLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ellipseLine.Image")));
 			this->ellipseLine->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->ellipseLine->Name = L"ellipseLine";
-			this->ellipseLine->Size = System::Drawing::Size(23, 22);
+			this->ellipseLine->Size = System::Drawing::Size(29, 24);
 			this->ellipseLine->Text = L"toolStripButton3";
 			this->ellipseLine->ToolTipText = L"ellipseLine";
 			this->ellipseLine->Click += gcnew System::EventHandler(this, &MyForm::ellipseLine_Click);
@@ -353,7 +382,7 @@ namespace ProgramPainter {
 			this->CircleLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"CircleLine.Image")));
 			this->CircleLine->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->CircleLine->Name = L"CircleLine";
-			this->CircleLine->Size = System::Drawing::Size(23, 22);
+			this->CircleLine->Size = System::Drawing::Size(29, 24);
 			this->CircleLine->Text = L"toolStripButton1";
 			this->CircleLine->ToolTipText = L"CircleLine";
 			this->CircleLine->Click += gcnew System::EventHandler(this, &MyForm::CircleLine_Click);
@@ -364,18 +393,25 @@ namespace ProgramPainter {
 			this->squareLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"squareLine.Image")));
 			this->squareLine->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->squareLine->Name = L"squareLine";
-			this->squareLine->Size = System::Drawing::Size(23, 22);
+			this->squareLine->Size = System::Drawing::Size(29, 24);
 			this->squareLine->Text = L"squareLine";
 			this->squareLine->Click += gcnew System::EventHandler(this, &MyForm::squareLine_Click);
 			// 
-			// toolStripButton2
+			// FreeDraw
 			// 
 			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton2.Image")));
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(23, 22);
+			this->toolStripButton2->Size = System::Drawing::Size(29, 24);
 			this->toolStripButton2->Text = L"toolStripButton2";
+			this->FreeDraw->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->FreeDraw->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"FreeDraw.Image")));
+			this->FreeDraw->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->FreeDraw->Name = L"FreeDraw";
+			this->FreeDraw->Size = System::Drawing::Size(29, 28);
+			this->FreeDraw->Text = L"FreeDraw";
+			this->FreeDraw->Click += gcnew System::EventHandler(this, &MyForm::freeDraw_Click);
 			// 
 			// openFileDialog
 			// 
@@ -383,11 +419,12 @@ namespace ProgramPainter {
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(489, 291);
+			this->ClientSize = System::Drawing::Size(652, 358);
 			this->Controls->Add(this->toolStripContainer1);
 			this->MainMenuStrip = this->menuStrip1;
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->toolStripContainer1->ContentPanel->ResumeLayout(false);
@@ -396,6 +433,7 @@ namespace ProgramPainter {
 			this->toolStripContainer1->ResumeLayout(false);
 			this->toolStripContainer1->PerformLayout();
 			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->menuStrip1->ResumeLayout(false);
@@ -435,8 +473,15 @@ namespace ProgramPainter {
 			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
 		// Using OpenCV: Create Image with data pointer
 		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		cvtColor(image, image, COLOR_BGR2GRAY);
+
+		// Convert image to grayscale manually
+		for (int y = 0; y < image.rows; y++) {
+			for (int x = 0; x < image.cols; x++) {
+				Vec3b pixel = image.at<Vec3b>(y, x);
+				uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3); // Average of BGR values
+				image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
+			}
+		}
 		// Unlock Bitmap Bits
 		bmp->UnlockBits(bmpData);
 		pictureBox1->Image = bmp; // Show result
@@ -471,7 +516,19 @@ namespace ProgramPainter {
 		pictureBox1->Image = bmp; // Show result
 
 	}
-
+	private: System::Void bGRToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		// Lock Bitmap Bits
+		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+		System::Drawing::Imaging::BitmapData^ bmpData =
+			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+		// Using OpenCV: Create Image with data pointer
+		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+		// Do OpenCV function
+		cvtColor(image, image, COLOR_BGR2BGR565);
+		// Unlock Bitmap Bits
+		bmp->UnlockBits(bmpData);
+		pictureBox1->Image = bmp; // Show result
+	}
 
 	private: System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (bmp != nullptr) {
@@ -511,7 +568,8 @@ namespace ProgramPainter {
 		DrawLine, DrawingLine,
 		DrawEllipse, DrawingEllipse,
 		DrawCircle, DrawingCircle,
-		DrawSqaure, DrawingSqaure
+		DrawSqaure, DrawingSqaure,
+		FreeDraw, FreeDrawing
 	} drawState;
 
 	System::Drawing::Point^ startPoint;
@@ -550,6 +608,14 @@ namespace ProgramPainter {
 		}
 	}
 
+	private: System::Void freeDraw_Click(System::Object^ sender, System::EventArgs^ e) {
+		numericUpDown1->Visible = true;
+		if (bmp != nullptr) {
+			drawState = DrawState::FreeDraw;
+			Cursor = Cursors::Arrow;
+		}
+	}
+
 	private: System::Void pictureBox_MouseDown(System::Object^ sender, MouseEventArgs^ e) {
 		if (bmp != nullptr) {
 			switch (drawState) {
@@ -569,17 +635,23 @@ namespace ProgramPainter {
 				startPoint = gcnew System::Drawing::Point(e->X, e->Y);
 				if (drawState == DrawState::DrawSqaure)
 					drawState = DrawState::DrawingSqaure;
+			case DrawState::FreeDraw:
+				startPoint = gcnew System::Drawing::Point(e->X, e->Y);
+				if (drawState == DrawState::FreeDraw)
+					drawState = DrawState::FreeDrawing;
+
 			}
 		}
 	}
-
+	System::Drawing::Point^ previous_point;
+	
 	private: System::Void pictureBox_MouseMove(System::Object^ sender, MouseEventArgs^ e) {
-
 		if ((drawState == DrawState::DrawingLine) || (drawState == DrawState::DrawingEllipse) || (drawState == DrawState::DrawingCircle)
-			|| (drawState == DrawState::DrawingSqaure) ) {
-			if (tmpImage != nullptr) delete tmpImage;
-			tmpImage = (Bitmap^)bmp->Clone();
-
+			|| (drawState == DrawState::DrawingSqaure)  || (drawState == DrawState::FreeDrawing) ){
+			if ((tmpImage != nullptr) && (drawState != DrawState::FreeDrawing)) delete tmpImage;
+			if (tmpImage == nullptr) tmpImage = (Bitmap^)bmp->Clone();
+			if (previous_point == nullptr) previous_point = gcnew System::Drawing::Point(e->X, e->Y);
+			
 			// Lock Bitmap Bits
 			Rectangle rect = Rectangle(0, 0, tmpImage->Width, tmpImage->Height);
 			System::Drawing::Imaging::BitmapData^ bmpData = tmpImage->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, tmpImage->PixelFormat);
@@ -590,14 +662,14 @@ namespace ProgramPainter {
 			// Do OpenCV function
 			switch (drawState) {
 				case DrawState::DrawingLine:  // Corrected condition to DrawingLine
-					line(image, cv::Point(startPoint->X, startPoint->Y), cv::Point(e->X, e->Y), Scalar(red, green, blue), size);
+					line(image, cv::Point(startPoint->X, startPoint->Y), cv::Point(e->X, e->Y), Scalar(blue, green, red), size);
 					break;
 				case DrawState::DrawingEllipse:
 				{
 					int dx = Math::Abs(startPoint->X - e->X);
 					int dy = Math::Abs(startPoint->Y - e->Y);
 					ellipse(image, cv::Point(startPoint->X, startPoint->Y), cv::Size(dx, dy),
-						Math::Atan2(dy, dx), 0, 360, Scalar(red, green, blue), size);
+						Math::Atan2(dy, dx), 0, 360, Scalar(blue, green, red), size);
 				}
 					break;
 				
@@ -605,13 +677,20 @@ namespace ProgramPainter {
 				{
 					int dx = Math::Abs(startPoint->X - e->X);
 					int dy = Math::Abs(startPoint->Y - e->Y);
-					int radius = static_cast<int>(sqrt(dx * dx + dy * dy));  // ¤Ó¹Ç³ÃÑÈÁÕ
-					circle(image, cv::Point(startPoint->X, startPoint->Y), radius, cv::Scalar(red, green, blue), size);
+					int radius = static_cast<int>(sqrt(dx * dx + dy * dy));  // ï¿½Ó¹Ç³ï¿½ï¿½ï¿½ï¿½ï¿½
+					circle(image, cv::Point(startPoint->X, startPoint->Y), radius, cv::Scalar(blue, green, red), size);
 				}
 					break;
 				case DrawState::DrawingSqaure:
 				{
-					rectangle(image, cv::Point(startPoint->X, startPoint->Y), cv::Point(e->X, e->Y), cv::Scalar(red, green, blue), size);
+					rectangle(image, cv::Point(startPoint->X, startPoint->Y), cv::Point(e->X, e->Y), cv::Scalar(blue, green, red), size);
+				}
+					break;
+				case DrawState::FreeDrawing:
+				{
+					line(image, cv::Point(previous_point->X, previous_point->Y), cv::Point(e->X, e->Y), Scalar(blue, green, red), size);
+
+					previous_point = gcnew System::Drawing::Point(e->X, e->Y);
 				}
 					break;
 			}
@@ -624,7 +703,7 @@ namespace ProgramPainter {
 
 	private: System::Void pictureBox_MouseUp(System::Object^ sender, MouseEventArgs^ e) {
 		if ((drawState == DrawState::DrawingLine) || (drawState == DrawState::DrawingEllipse) || (drawState == DrawState::DrawingCircle)
-			|| (drawState == DrawState::DrawingSqaure)) {
+			|| (drawState == DrawState::DrawingSqaure) || (drawState == DrawState::FreeDrawing)) {
 			delete startPoint;
 			startPoint = nullptr;
 			delete bmp;
@@ -638,5 +717,21 @@ namespace ProgramPainter {
 
 
 	
+
+private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void lABToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	// Lock Bitmap Bits
+	Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+	System::Drawing::Imaging::BitmapData^ bmpData =
+		bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+	// Using OpenCV: Create Image with data pointer
+	Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+	// Do OpenCV function
+	cvtColor(image, image, COLOR_BGR2Lab);
+	// Unlock Bitmap Bits
+	bmp->UnlockBits(bmpData);
+	pictureBox1->Image = bmp; // Show result
+}
 };
 }
