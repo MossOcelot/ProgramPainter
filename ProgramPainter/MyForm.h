@@ -80,8 +80,10 @@ namespace ProgramPainter {
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::ToolStripButton^ CircleLine;
 	private: System::Windows::Forms::ToolStripButton^ squareLine;
+	private: System::Windows::Forms::ToolStripButton^ PaintBucketColor;
 
-	private: System::Windows::Forms::ToolStripButton^ toolStripButton2;
+
+
 
 
 
@@ -126,7 +128,7 @@ namespace ProgramPainter {
 			this->ellipseLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->CircleLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->squareLine = (gcnew System::Windows::Forms::ToolStripButton());
-			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->PaintBucketColor = (gcnew System::Windows::Forms::ToolStripButton());
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->toolStripContainer1->ContentPanel->SuspendLayout();
@@ -171,11 +173,10 @@ namespace ProgramPainter {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pictureBox1->Location = System::Drawing::Point(0, 0);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(452, 242);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox_MouseDown);
@@ -307,7 +308,7 @@ namespace ProgramPainter {
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
 			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {
 				this->colorPicker, this->DrawLine,
-					this->ellipseLine, this->CircleLine, this->squareLine, this->toolStripButton2
+					this->ellipseLine, this->CircleLine, this->squareLine, this->PaintBucketColor
 			});
 			this->toolStrip->Location = System::Drawing::Point(4, 24);
 			this->toolStrip->Name = L"toolStrip";
@@ -368,14 +369,16 @@ namespace ProgramPainter {
 			this->squareLine->Text = L"squareLine";
 			this->squareLine->Click += gcnew System::EventHandler(this, &MyForm::squareLine_Click);
 			// 
-			// toolStripButton2
+			// PaintBucketColor
 			// 
-			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton2.Image")));
-			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(23, 22);
-			this->toolStripButton2->Text = L"toolStripButton2";
+			this->PaintBucketColor->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->PaintBucketColor->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"PaintBucketColor.Image")));
+			this->PaintBucketColor->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->PaintBucketColor->Name = L"PaintBucketColor";
+			this->PaintBucketColor->Size = System::Drawing::Size(23, 22);
+			this->PaintBucketColor->Text = L"toolStripButton2";
+			this->PaintBucketColor->ToolTipText = L"PaintBucketColor";
+			this->PaintBucketColor->Click += gcnew System::EventHandler(this, &MyForm::PaintBucketColor_Click);
 			// 
 			// openFileDialog
 			// 
@@ -396,6 +399,7 @@ namespace ProgramPainter {
 			this->toolStripContainer1->ResumeLayout(false);
 			this->toolStripContainer1->PerformLayout();
 			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->menuStrip1->ResumeLayout(false);
@@ -511,7 +515,8 @@ namespace ProgramPainter {
 		DrawLine, DrawingLine,
 		DrawEllipse, DrawingEllipse,
 		DrawCircle, DrawingCircle,
-		DrawSqaure, DrawingSqaure
+		DrawSqaure, DrawingSqaure,
+		PaintBucket, PaintingBucket
 	} drawState;
 
 	System::Drawing::Point^ startPoint;
@@ -550,6 +555,14 @@ namespace ProgramPainter {
 		}
 	}
 
+	private: System::Void PaintBucketColor_Click(System::Object^ sender, System::EventArgs^ e) {
+		numericUpDown1->Visible = true;
+		if (bmp != nullptr) {
+			drawState = DrawState::PaintBucket;
+			Cursor = Cursors::Cross;
+		}
+	}
+
 	private: System::Void pictureBox_MouseDown(System::Object^ sender, MouseEventArgs^ e) {
 		if (bmp != nullptr) {
 			switch (drawState) {
@@ -569,6 +582,28 @@ namespace ProgramPainter {
 				startPoint = gcnew System::Drawing::Point(e->X, e->Y);
 				if (drawState == DrawState::DrawSqaure)
 					drawState = DrawState::DrawingSqaure;
+			case DrawState::PaintBucket:
+			{
+				startPoint = gcnew System::Drawing::Point(e->X, e->Y);
+				if (drawState == DrawState::PaintBucket)
+					drawState = DrawState::PaintingBucket;
+
+				if (tmpImage != nullptr) delete tmpImage;
+				tmpImage = (Bitmap^)bmp->Clone();
+
+				// Lock Bitmap Bits
+				Rectangle rect = Rectangle(0, 0, tmpImage->Width, tmpImage->Height);
+				System::Drawing::Imaging::BitmapData^ bmpData = tmpImage->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, tmpImage->PixelFormat);
+
+				// Create Image with data pointer
+				Mat image(tmpImage->Height, tmpImage->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+				int size = Decimal::ToInt32(numericUpDown1->Value);
+				floodFill(image, cv::Point(startPoint->X, startPoint->Y), cv::Scalar(red, green, blue), 0, Scalar::all(10), Scalar::all(10));
+				
+				tmpImage->UnlockBits(bmpData);
+				pictureBox1->Image = tmpImage; // Show result
+			}
+
 			}
 		}
 	}
@@ -576,7 +611,7 @@ namespace ProgramPainter {
 	private: System::Void pictureBox_MouseMove(System::Object^ sender, MouseEventArgs^ e) {
 
 		if ((drawState == DrawState::DrawingLine) || (drawState == DrawState::DrawingEllipse) || (drawState == DrawState::DrawingCircle)
-			|| (drawState == DrawState::DrawingSqaure) ) {
+			|| (drawState == DrawState::DrawingSqaure)) {
 			if (tmpImage != nullptr) delete tmpImage;
 			tmpImage = (Bitmap^)bmp->Clone();
 
@@ -614,6 +649,7 @@ namespace ProgramPainter {
 					rectangle(image, cv::Point(startPoint->X, startPoint->Y), cv::Point(e->X, e->Y), cv::Scalar(red, green, blue), size);
 				}
 					break;
+				
 			}
 
 			// Unlock Bitmap Bits
@@ -624,7 +660,7 @@ namespace ProgramPainter {
 
 	private: System::Void pictureBox_MouseUp(System::Object^ sender, MouseEventArgs^ e) {
 		if ((drawState == DrawState::DrawingLine) || (drawState == DrawState::DrawingEllipse) || (drawState == DrawState::DrawingCircle)
-			|| (drawState == DrawState::DrawingSqaure)) {
+			|| (drawState == DrawState::DrawingSqaure) || (drawState == DrawState::PaintingBucket)) {
 			delete startPoint;
 			startPoint = nullptr;
 			delete bmp;
@@ -637,6 +673,7 @@ namespace ProgramPainter {
 	}
 
 
+	
 	
 };
 }
