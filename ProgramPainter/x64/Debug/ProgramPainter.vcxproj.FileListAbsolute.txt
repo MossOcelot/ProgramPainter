@@ -1,3 +1,0 @@
-C:\Users\Most\source\repos\ProgramPainter\ProgramPainter\x64\Debug\ProgramPainter.vcxproj.AssemblyReference.cache
-C:\Users\Most\source\repos\ProgramPainter\ProgramPainter\x64\Debug\ProgramPainter.MyForm.resources
-C:\Users\Most\source\repos\ProgramPainter\ProgramPainter\x64\Debug\ProgramPainter.vcxproj.GenerateResource.cache
