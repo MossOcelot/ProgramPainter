@@ -229,28 +229,28 @@ namespace ProgramPainter {
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->openToolStripMenuItem->Text = L"Open";
 			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveToolStripMenuItem->Text = L"Save";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveAsToolStripMenuItem->Text = L"Save As";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
