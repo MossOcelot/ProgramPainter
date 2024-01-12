@@ -98,6 +98,7 @@ namespace ProgramPainter {
 	private: System::Windows::Forms::ToolStripMenuItem^ dotDashToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator1;
 	private: System::Windows::Forms::ToolStripButton^ cameraButton;
+	private: System::Windows::Forms::ToolStripButton^ edgeDetection;
 
 
 
@@ -134,6 +135,7 @@ namespace ProgramPainter {
 			this->StraightLine = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dotDashToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->edgeDetection = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->cameraButton = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
@@ -222,13 +224,14 @@ namespace ProgramPainter {
 			// 
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
 			this->toolStrip->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {
+			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(10) {
 				this->colorPicker, this->DrawLine,
-					this->ellipseLine, this->CircleLine, this->squareLine, this->Pen, this->toolStripButton1, this->toolStripSeparator1, this->cameraButton
+					this->ellipseLine, this->CircleLine, this->squareLine, this->Pen, this->toolStripButton1, this->edgeDetection, this->toolStripSeparator1,
+					this->cameraButton
 			});
 			this->toolStrip->Location = System::Drawing::Point(4, 0);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(300, 27);
+			this->toolStrip->Size = System::Drawing::Size(290, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
 			// 
@@ -321,6 +324,16 @@ namespace ProgramPainter {
 			this->toolStripButton1->Text = L"toolStripButton1";
 			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MyForm::PaintBucket_Click);
 			// 
+			// edgeDetection
+			// 
+			this->edgeDetection->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->edgeDetection->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"edgeDetection.Image")));
+			this->edgeDetection->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->edgeDetection->Name = L"edgeDetection";
+			this->edgeDetection->Size = System::Drawing::Size(29, 24);
+			this->edgeDetection->Text = L"Edge Detection";
+			this->edgeDetection->Click += gcnew System::EventHandler(this, &MyForm::edgeDetection_Click);
+			// 
 			// toolStripSeparator1
 			// 
 			this->toolStripSeparator1->Name = L"toolStripSeparator1";
@@ -401,21 +414,21 @@ namespace ProgramPainter {
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
 			// 
@@ -457,6 +470,7 @@ namespace ProgramPainter {
 		}
 ;
 	#pragma endregion
+
 	private: System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
@@ -796,6 +810,38 @@ namespace ProgramPainter {
 		CameraForm^ cameraform = gcnew CameraForm();
 		cameraform->ShowDialog();
 	}
+		   
+	private: System::Void edgeDetection_Click(System::Object^ sender, System::EventArgs^ e) {
 
+		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+		System::Drawing::Imaging::BitmapData^ bmpData =
+			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+		// Using OpenCV: Create Image with data pointer
+		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+		// Do OpenCV function
+		for (int y = 0; y < image.rows; y++) {
+			for (int x = 0; x < image.cols; x++) {
+				Vec3b pixel = image.at<Vec3b>(y, x);
+				uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3);
+				image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
+			}
+		}
+		Mat blur_image;
+		Mat edges;
+
+		blur(image, blur_image, cv::Size(3, 3));
+		Canny(blur_image, image, 100, 200, 3, false);
+
+		//blur(image, image, cv::Size(3, 3));
+		//Mat edges = image.clone();
+		//Canny(image, edges, 100, 200, 3, false);
+
+		imshow("Canny edge detection", image);
+		bmp->UnlockBits(bmpData);
+
+		pictureBox1->Image = bmp; 
+
+
+	}
 };
 }
