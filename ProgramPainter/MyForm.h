@@ -3,7 +3,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
-
+#include "CameraForm.h"
 using namespace cv;
 
 namespace ProgramPainter {
@@ -74,10 +74,10 @@ namespace ProgramPainter {
 
 
 
-	private: System::Windows::Forms::ToolStripMenuItem^ typeLinesToolStripMenuItem;
 
-	private: System::Windows::Forms::ToolStripMenuItem^ lineToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ dotToolStripMenuItem;
+
+
+
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::ToolStripButton^ CircleLine;
 	private: System::Windows::Forms::ToolStripButton^ squareLine;
@@ -96,6 +96,8 @@ namespace ProgramPainter {
 
 
 	private: System::Windows::Forms::ToolStripMenuItem^ dotDashToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator1;
+	private: System::Windows::Forms::ToolStripButton^ cameraButton;
 
 
 
@@ -126,10 +128,12 @@ namespace ProgramPainter {
 			this->ellipseLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->CircleLine = (gcnew System::Windows::Forms::ToolStripButton());
 			this->squareLine = (gcnew System::Windows::Forms::ToolStripButton());
-			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->Pen = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->StraightLine = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dotDashToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->cameraButton = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -141,9 +145,6 @@ namespace ProgramPainter {
 			this->grayToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->hSVToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->captureToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->typeLinesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->lineToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->dotToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
@@ -219,13 +220,13 @@ namespace ProgramPainter {
 			// 
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
 			this->toolStrip->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {
+			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {
 				this->colorPicker, this->DrawLine,
-					this->ellipseLine, this->CircleLine, this->squareLine, this->Pen, this->toolStripButton1
+					this->ellipseLine, this->CircleLine, this->squareLine, this->Pen, this->toolStripButton1, this->toolStripSeparator1, this->cameraButton
 			});
 			this->toolStrip->Location = System::Drawing::Point(4, 0);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(265, 27);
+			this->toolStrip->Size = System::Drawing::Size(261, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
 			// 
@@ -281,16 +282,6 @@ namespace ProgramPainter {
 			this->squareLine->Text = L"squareLine";
 			this->squareLine->Click += gcnew System::EventHandler(this, &MyForm::squareLine_Click);
 			// 
-			// toolStripButton1
-			// 
-			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton1.Image")));
-			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->toolStripButton1->Name = L"toolStripButton1";
-			this->toolStripButton1->Size = System::Drawing::Size(29, 24);
-			this->toolStripButton1->Text = L"toolStripButton1";
-			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MyForm::PaintBucket_Click);
-			// 
 			// Pen
 			// 
 			this->Pen->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
@@ -306,7 +297,7 @@ namespace ProgramPainter {
 			// 
 			this->StraightLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"StraightLine.Image")));
 			this->StraightLine->Name = L"StraightLine";
-			this->StraightLine->Size = System::Drawing::Size(224, 26);
+			this->StraightLine->Size = System::Drawing::Size(187, 26);
 			this->StraightLine->Text = L"Line";
 			this->StraightLine->Click += gcnew System::EventHandler(this, &MyForm::StraightLine_Click);
 			// 
@@ -314,17 +305,42 @@ namespace ProgramPainter {
 			// 
 			this->dotDashToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dotDashToolStripMenuItem.Image")));
 			this->dotDashToolStripMenuItem->Name = L"dotDashToolStripMenuItem";
-			this->dotDashToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->dotDashToolStripMenuItem->Size = System::Drawing::Size(187, 26);
 			this->dotDashToolStripMenuItem->Text = L"Dot/Dash Line";
 			this->dotDashToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::DashLine_Click);
+			// 
+			// toolStripButton1
+			// 
+			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton1.Image")));
+			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton1->Name = L"toolStripButton1";
+			this->toolStripButton1->Size = System::Drawing::Size(29, 24);
+			this->toolStripButton1->Text = L"toolStripButton1";
+			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MyForm::PaintBucket_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this->toolStripSeparator1->Name = L"toolStripSeparator1";
+			this->toolStripSeparator1->Size = System::Drawing::Size(6, 27);
+			// 
+			// cameraButton
+			// 
+			this->cameraButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->cameraButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"cameraButton.Image")));
+			this->cameraButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->cameraButton->Name = L"cameraButton";
+			this->cameraButton->Size = System::Drawing::Size(29, 24);
+			this->cameraButton->Text = L"Camera Button";
+			this->cameraButton->Click += gcnew System::EventHandler(this, &MyForm::cameraButton_Click);
 			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->Dock = System::Windows::Forms::DockStyle::None;
 			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->fileToolStripMenuItem,
-					this->convertToolStripMenuItem, this->captureToolStripMenuItem, this->typeLinesToolStripMenuItem
+					this->convertToolStripMenuItem, this->captureToolStripMenuItem
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 27);
 			this->menuStrip1->Name = L"menuStrip1";
@@ -406,28 +422,6 @@ namespace ProgramPainter {
 			this->captureToolStripMenuItem->Name = L"captureToolStripMenuItem";
 			this->captureToolStripMenuItem->Size = System::Drawing::Size(75, 24);
 			this->captureToolStripMenuItem->Text = L"Capture";
-			// 
-			// typeLinesToolStripMenuItem
-			// 
-			this->typeLinesToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->lineToolStripMenuItem,
-					this->dotToolStripMenuItem
-			});
-			this->typeLinesToolStripMenuItem->Name = L"typeLinesToolStripMenuItem";
-			this->typeLinesToolStripMenuItem->Size = System::Drawing::Size(87, 24);
-			this->typeLinesToolStripMenuItem->Text = L"TypeLines";
-			// 
-			// lineToolStripMenuItem
-			// 
-			this->lineToolStripMenuItem->Name = L"lineToolStripMenuItem";
-			this->lineToolStripMenuItem->Size = System::Drawing::Size(119, 26);
-			this->lineToolStripMenuItem->Text = L"Line";
-			// 
-			// dotToolStripMenuItem
-			// 
-			this->dotToolStripMenuItem->Name = L"dotToolStripMenuItem";
-			this->dotToolStripMenuItem->Size = System::Drawing::Size(119, 26);
-			this->dotToolStripMenuItem->Text = L"Dot";
 			// 
 			// openFileDialog
 			// 
@@ -796,5 +790,10 @@ namespace ProgramPainter {
 	private: System::Void DashLine_Click(System::Object^ sender, System::EventArgs^ e) {
 		lineState = LineState::Dot;
 	}
+	private: System::Void cameraButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		CameraForm^ cameraform = gcnew CameraForm();
+		cameraform->ShowDialog();
+	}
+
 };
 }
