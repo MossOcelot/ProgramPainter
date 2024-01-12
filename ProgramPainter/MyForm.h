@@ -104,6 +104,8 @@ namespace ProgramPainter {
 
 
 
+
+
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -226,7 +228,7 @@ namespace ProgramPainter {
 			});
 			this->toolStrip->Location = System::Drawing::Point(4, 0);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(261, 27);
+			this->toolStrip->Size = System::Drawing::Size(300, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
 			// 
@@ -665,26 +667,26 @@ namespace ProgramPainter {
 					drawState = DrawState::FreeDrawing;
 			case DrawState::PaintBucket:
 			{
-				if (drawState == DrawState::NotDrawing) {
+				
 					startPoint = gcnew System::Drawing::Point(e->X, e->Y);
-					if (drawState == DrawState::PaintBucket)
+					if (drawState == DrawState::PaintBucket) {
 						drawState = DrawState::PaintingBucket;
 
-					if (tmpImage != nullptr) delete tmpImage;
-					tmpImage = (Bitmap^)bmp->Clone();
+						if (tmpImage != nullptr) delete tmpImage;
+						tmpImage = (Bitmap^)bmp->Clone();
 
-					// Lock Bitmap Bits
-					Rectangle rect = Rectangle(0, 0, tmpImage->Width, tmpImage->Height);
-					System::Drawing::Imaging::BitmapData^ bmpData = tmpImage->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, tmpImage->PixelFormat);
+						// Lock Bitmap Bits
+						Rectangle rect = Rectangle(0, 0, tmpImage->Width, tmpImage->Height);
+						System::Drawing::Imaging::BitmapData^ bmpData = tmpImage->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, tmpImage->PixelFormat);
 
-					// Create Image with data pointer
-					Mat image(tmpImage->Height, tmpImage->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-					int size = Decimal::ToInt32(numericUpDown1->Value);
-					floodFill(image, cv::Point(startPoint->X, startPoint->Y), cv::Scalar(red, green, blue), 0, Scalar::all(10), Scalar::all(10));
+						// Create Image with data pointer
+						Mat image(tmpImage->Height, tmpImage->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+						int size = Decimal::ToInt32(numericUpDown1->Value);
+						floodFill(image, cv::Point(startPoint->X, startPoint->Y), cv::Scalar(red, green, blue), 0, Scalar::all(10), Scalar::all(10));
 
-					tmpImage->UnlockBits(bmpData);
-					pictureBox1->Image = tmpImage; // Show result
-				}
+						tmpImage->UnlockBits(bmpData);
+						pictureBox1->Image = tmpImage; // Show result
+					}
 			}
 			}
 		}
