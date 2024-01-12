@@ -99,6 +99,7 @@ namespace ProgramPainter {
 	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator1;
 	private: System::Windows::Forms::ToolStripButton^ cameraButton;
 	private: System::Windows::Forms::ToolStripButton^ edgeDetection;
+	private: System::Windows::Forms::ToolStripButton^ HistogramButton;
 
 
 
@@ -138,6 +139,7 @@ namespace ProgramPainter {
 			this->edgeDetection = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->cameraButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->HistogramButton = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -224,14 +226,14 @@ namespace ProgramPainter {
 			// 
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
 			this->toolStrip->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(10) {
+			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(11) {
 				this->colorPicker, this->DrawLine,
 					this->ellipseLine, this->CircleLine, this->squareLine, this->Pen, this->toolStripButton1, this->edgeDetection, this->toolStripSeparator1,
-					this->cameraButton
+					this->cameraButton, this->HistogramButton
 			});
 			this->toolStrip->Location = System::Drawing::Point(4, 0);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(290, 27);
+			this->toolStrip->Size = System::Drawing::Size(358, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
 			// 
@@ -349,6 +351,16 @@ namespace ProgramPainter {
 			this->cameraButton->Text = L"Camera Button";
 			this->cameraButton->Click += gcnew System::EventHandler(this, &MyForm::cameraButton_Click);
 			// 
+			// HistogramButton
+			// 
+			this->HistogramButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->HistogramButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"HistogramButton.Image")));
+			this->HistogramButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->HistogramButton->Name = L"HistogramButton";
+			this->HistogramButton->Size = System::Drawing::Size(29, 24);
+			this->HistogramButton->Text = L"toolStripButton2";
+			this->HistogramButton->Click += gcnew System::EventHandler(this, &MyForm::HistogramButton_Click);
+			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->Dock = System::Windows::Forms::DockStyle::None;
@@ -414,21 +426,21 @@ namespace ProgramPainter {
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
 			// 
@@ -494,66 +506,74 @@ namespace ProgramPainter {
 
 	private: System::Void grayToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		// Lock Bitmap Bits
-		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
-		System::Drawing::Imaging::BitmapData^ bmpData =
-			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
-		// Using OpenCV: Create Image with data pointer
-		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
 
-		// Convert image to grayscale manually
-		for (int y = 0; y < image.rows; y++) {
-			for (int x = 0; x < image.cols; x++) {
-				Vec3b pixel = image.at<Vec3b>(y, x);
-				uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3); // Average of BGR values
-				image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
+			// Convert image to grayscale manually
+			for (int y = 0; y < image.rows; y++) {
+				for (int x = 0; x < image.cols; x++) {
+					Vec3b pixel = image.at<Vec3b>(y, x);
+					uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3); // Average of BGR values
+					image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
+				}
 			}
+			// Unlock Bitmap Bits
+			bmp->UnlockBits(bmpData);
+			pictureBox1->Image = bmp; // Show result
 		}
-		// Unlock Bitmap Bits
-		bmp->UnlockBits(bmpData);
-		pictureBox1->Image = bmp; // Show result
 	}
 
 	private: System::Void rGBToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		// Lock Bitmap Bits
-		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
-		System::Drawing::Imaging::BitmapData^ bmpData =
-			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
-		// Using OpenCV: Create Image with data pointer
-		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		cvtColor(image, image, COLOR_BGR2RGB);
-		// Unlock Bitmap Bits
-		bmp->UnlockBits(bmpData);
-		pictureBox1->Image = bmp; // Show result
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+			// Do OpenCV function
+			cvtColor(image, image, COLOR_BGR2RGB);
+			// Unlock Bitmap Bits
+			bmp->UnlockBits(bmpData);
+			pictureBox1->Image = bmp; // Show result
+		}
 
 	}
 
 	private: System::Void hSVToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		// Lock Bitmap Bits
-		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
-		System::Drawing::Imaging::BitmapData^ bmpData =
-			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
-		// Using OpenCV: Create Image with data pointer
-		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		cvtColor(image, image, COLOR_BGR2HSV);
-		// Unlock Bitmap Bits
-		bmp->UnlockBits(bmpData);
-		pictureBox1->Image = bmp; // Show result
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+			// Do OpenCV function
+			cvtColor(image, image, COLOR_BGR2HSV);
+			// Unlock Bitmap Bits
+			bmp->UnlockBits(bmpData);
+			pictureBox1->Image = bmp; // Show result
+		}
 
 	}
 	private: System::Void bGRToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		// Lock Bitmap Bits
-		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
-		System::Drawing::Imaging::BitmapData^ bmpData =
-			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
-		// Using OpenCV: Create Image with data pointer
-		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		cvtColor(image, image, COLOR_BGR2BGR565);
-		// Unlock Bitmap Bits
-		bmp->UnlockBits(bmpData);
-		pictureBox1->Image = bmp; // Show result
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+			// Do OpenCV function
+			cvtColor(image, image, COLOR_BGR2BGR565);
+			// Unlock Bitmap Bits
+			bmp->UnlockBits(bmpData);
+			pictureBox1->Image = bmp; // Show result
+		}
 	}
 
 	private: System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -787,17 +807,18 @@ namespace ProgramPainter {
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void lABToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		// Lock Bitmap Bits
-		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
-		System::Drawing::Imaging::BitmapData^ bmpData =
-			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
-		// Using OpenCV: Create Image with data pointer
-		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		cvtColor(image, image, COLOR_BGR2Lab);
-		// Unlock Bitmap Bits
-		bmp->UnlockBits(bmpData);
-		pictureBox1->Image = bmp; // Show result
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+			// Do OpenCV function
+			cvtColor(image, image, COLOR_BGR2Lab);
+			// Unlock Bitmap Bits
+			bmp->UnlockBits(bmpData);
+			pictureBox1->Image = bmp; // Show result
+		}
 	}
 
 	private: System::Void StraightLine_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -812,36 +833,93 @@ namespace ProgramPainter {
 	}
 		   
 	private: System::Void edgeDetection_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (bmp != nullptr) {
+			Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
+			System::Drawing::Imaging::BitmapData^ bmpData =
+				bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
+			// Using OpenCV: Create Image with data pointer
+			Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
+			// Do OpenCV function
+			for (int y = 0; y < image.rows; y++) {
+				for (int x = 0; x < image.cols; x++) {
+					Vec3b pixel = image.at<Vec3b>(y, x);
+					uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3);
+					image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
+				}
+			}
+			Mat blur_image;
+			Mat edges;
 
+			blur(image, blur_image, cv::Size(3, 3));
+			Canny(blur_image, image, 100, 200, 3, false);
+
+			//blur(image, image, cv::Size(3, 3));
+			//Mat edges = image.clone();
+			//Canny(image, edges, 100, 200, 3, false);
+
+			imshow("Canny edge detection", image);
+			bmp->UnlockBits(bmpData);
+
+			pictureBox1->Image = bmp;
+		}
+
+
+	}
+private: System::Void HistogramButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (bmp != nullptr) {
 		Rectangle rect = Rectangle(0, 0, bmp->Width, bmp->Height);
 		System::Drawing::Imaging::BitmapData^ bmpData =
 			bmp->LockBits(rect, System::Drawing::Imaging::ImageLockMode::ReadWrite, bmp->PixelFormat);
 		// Using OpenCV: Create Image with data pointer
 		Mat image(bmp->Height, bmp->Width, CV_8UC3, bmpData->Scan0.ToPointer(), bmpData->Stride);
-		// Do OpenCV function
-		for (int y = 0; y < image.rows; y++) {
-			for (int x = 0; x < image.cols; x++) {
-				Vec3b pixel = image.at<Vec3b>(y, x);
-				uchar grayValue = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3);
-				image.at<Vec3b>(y, x) = Vec3b(grayValue, grayValue, grayValue);
-			}
+
+
+		// Calculate histogram
+		std::vector<cv::Mat> bgr_planes;
+		split(image, bgr_planes);
+
+		int histSize = 256;
+		float range[] = { 0, 256 }; // the upper boundary is exclusive
+		const float* histRange = { range };
+
+		bool uniform = true, accumulate = false;
+
+		cv::Mat b_hist, g_hist, r_hist;
+
+		calcHist(&bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
+		calcHist(&bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
+		calcHist(&bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+		int hist_w = 512;
+		int hist_h = 400;
+		int bin_w = cvRound((double)hist_w / histSize);
+
+		Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(255, 255, 255));
+
+		// Normalize the histograms to be displayed
+		normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+		normalize(g_hist, g_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+		normalize(r_hist, r_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+		// Draw histograms
+		for (int i = 1; i < histSize; i++)
+		{
+			line(histImage, cv::Point(bin_w * (i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))),
+				cv::Point(bin_w * (i), hist_h - cvRound(b_hist.at<float>(i))),
+				Scalar(255, 0, 0), 2, 8, 0);
+			line(histImage, cv::Point(bin_w * (i - 1), hist_h - cvRound(g_hist.at<float>(i - 1))),
+				cv::Point(bin_w * (i), hist_h - cvRound(g_hist.at<float>(i))),
+				Scalar(0, 255, 0), 2, 8, 0);
+			line(histImage, cv::Point(bin_w * (i - 1), hist_h - cvRound(r_hist.at<float>(i - 1))),
+				cv::Point(bin_w * (i), hist_h - cvRound(r_hist.at<float>(i))),
+				Scalar(0, 0, 255), 2, 8, 0);
 		}
-		Mat blur_image;
-		Mat edges;
 
-		blur(image, blur_image, cv::Size(3, 3));
-		Canny(blur_image, image, 100, 200, 3, false);
-
-		//blur(image, image, cv::Size(3, 3));
-		//Mat edges = image.clone();
-		//Canny(image, edges, 100, 200, 3, false);
-
-		imshow("Canny edge detection", image);
+		// Display histogram
+		imshow("Histogram", histImage);
 		bmp->UnlockBits(bmpData);
-
-		pictureBox1->Image = bmp; 
-
-
 	}
+	
+}
 };
 }
