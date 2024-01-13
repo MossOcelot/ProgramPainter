@@ -198,6 +198,7 @@ namespace ProgramPainter {
 			Application::DoEvents();
 		}
 	}
+	
 	private: System::Void CaptureClick_Click(System::Object^ sender, System::EventArgs^ e) {
 		if ((bmp != nullptr) && (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)) {
 			bmp->Save(saveFileDialog1->FileName, System::Drawing::Imaging::ImageFormat::Png);

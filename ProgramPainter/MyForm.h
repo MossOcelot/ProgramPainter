@@ -272,7 +272,7 @@ namespace ProgramPainter {
 			// 
 			this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->splitContainer1->Location = System::Drawing::Point(0, 0);
-			this->splitContainer1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->splitContainer1->Margin = System::Windows::Forms::Padding(2);
 			this->splitContainer1->Name = L"splitContainer1";
 			this->splitContainer1->Orientation = System::Windows::Forms::Orientation::Horizontal;
 			// 
@@ -291,7 +291,7 @@ namespace ProgramPainter {
 			// 
 			this->splitContainer2->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->splitContainer2->Location = System::Drawing::Point(0, 0);
-			this->splitContainer2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->splitContainer2->Margin = System::Windows::Forms::Padding(2);
 			this->splitContainer2->Name = L"splitContainer2";
 			// 
 			// splitContainer2.Panel1
@@ -319,7 +319,7 @@ namespace ProgramPainter {
 			// splitContainer3
 			// 
 			this->splitContainer3->Location = System::Drawing::Point(0, 0);
-			this->splitContainer3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->splitContainer3->Margin = System::Windows::Forms::Padding(2);
 			this->splitContainer3->Name = L"splitContainer3";
 			// 
 			// splitContainer3.Panel1
@@ -337,7 +337,7 @@ namespace ProgramPainter {
 			// 
 			this->trackBar1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->trackBar1->Location = System::Drawing::Point(0, 0);
-			this->trackBar1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->trackBar1->Margin = System::Windows::Forms::Padding(2);
 			this->trackBar1->Minimum = 1;
 			this->trackBar1->Name = L"trackBar1";
 			this->trackBar1->Size = System::Drawing::Size(280, 39);
@@ -348,7 +348,7 @@ namespace ProgramPainter {
 			// splitContainer4
 			// 
 			this->splitContainer4->Location = System::Drawing::Point(0, 0);
-			this->splitContainer4->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->splitContainer4->Margin = System::Windows::Forms::Padding(2);
 			this->splitContainer4->Name = L"splitContainer4";
 			// 
 			// splitContainer4.Panel1
@@ -374,7 +374,7 @@ namespace ProgramPainter {
 			this->panel1->Controls->Add(this->pictureBox1);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panel1->Location = System::Drawing::Point(0, 0);
-			this->panel1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->panel1->Margin = System::Windows::Forms::Padding(2);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(853, 347);
 			this->panel1->TabIndex = 1;
@@ -576,9 +576,9 @@ namespace ProgramPainter {
 				this->fileToolStripMenuItem,
 					this->convertToolStripMenuItem, this->captureToolStripMenuItem
 			});
-			this->menuStrip1->Location = System::Drawing::Point(0, 27);
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(853, 28);
+			this->menuStrip1->Size = System::Drawing::Size(640, 24);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -589,14 +589,14 @@ namespace ProgramPainter {
 					this->saveToolStripMenuItem, this->saveAsToolStripMenuItem, this->exitToolStripMenuItem
 			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(46, 24);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"openToolStripMenuItem.Image")));
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(143, 26);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(114, 22);
 			this->openToolStripMenuItem->Text = L"Open";
 			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
@@ -604,7 +604,7 @@ namespace ProgramPainter {
 			// 
 			this->saveToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"saveToolStripMenuItem.Image")));
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(143, 26);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(114, 22);
 			this->saveToolStripMenuItem->Text = L"Save";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
@@ -612,14 +612,14 @@ namespace ProgramPainter {
 			// 
 			this->saveAsToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"saveAsToolStripMenuItem.Image")));
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(143, 26);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(114, 22);
 			this->saveAsToolStripMenuItem->Text = L"Save As";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 26);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(114, 22);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
@@ -630,40 +630,46 @@ namespace ProgramPainter {
 					this->grayToolStripMenuItem, this->hSVToolStripMenuItem
 			});
 			this->convertToolStripMenuItem->Name = L"convertToolStripMenuItem";
-			this->convertToolStripMenuItem->Size = System::Drawing::Size(74, 24);
+			this->convertToolStripMenuItem->Size = System::Drawing::Size(61, 20);
 			this->convertToolStripMenuItem->Text = L"Convert";
 			// 
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
 			// 
 			// captureToolStripMenuItem
 			// 
 			this->captureToolStripMenuItem->Name = L"captureToolStripMenuItem";
-			this->captureToolStripMenuItem->Size = System::Drawing::Size(75, 24);
+			this->captureToolStripMenuItem->Size = System::Drawing::Size(61, 20);
 			this->captureToolStripMenuItem->Text = L"Capture";
 			this->captureToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::cameraButton_Click);
 			// 
 			// openFileDialog
 			// 
 			this->openFileDialog->FileName = L"openFileDialog";
+			this->openFileDialog->Filter = L"Image files|*.jpg;*.png";
+			// 
+			// saveFileDialog
+			// 
+			this->saveFileDialog->DefaultExt = L"jpg";
+			this->saveFileDialog->Filter = L"Image files|*.jpg;*.png";
 			// 
 			// MyForm
 			// 
