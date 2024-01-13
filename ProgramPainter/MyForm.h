@@ -305,7 +305,7 @@ namespace ProgramPainter {
 			// statusLabel
 			// 
 			this->statusLabel->Name = L"statusLabel";
-			this->statusLabel->Size = System::Drawing::Size(549, 20);
+			this->statusLabel->Size = System::Drawing::Size(838, 20);
 			this->statusLabel->Spring = true;
 			this->statusLabel->Text = L"Status Label";
 			// 
@@ -405,9 +405,11 @@ namespace ProgramPainter {
 			// 
 			this->trackBar1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->trackBar1->Location = System::Drawing::Point(0, 0);
+			this->trackBar1->Minimum = 1;
 			this->trackBar1->Name = L"trackBar1";
 			this->trackBar1->Size = System::Drawing::Size(280, 40);
 			this->trackBar1->TabIndex = 0;
+			this->trackBar1->Value = 1;
 			this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::trackBar1_Scroll);
 			// 
 			// splitContainer4
