@@ -64,7 +64,6 @@ namespace ProgramPainter {
 	private: System::Windows::Forms::ToolStripMenuItem^ saveAsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ captureToolStripMenuItem;
 	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog;
-	private: System::Windows::Forms::ToolStrip^ toolStrip;
 
 
 
@@ -78,7 +77,8 @@ namespace ProgramPainter {
 
 
 
-	private: System::Windows::Forms::Panel^ panel1;
+
+
 
 
 
@@ -88,30 +88,72 @@ namespace ProgramPainter {
 
 
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
-
+	private: System::Windows::Forms::ToolStrip^ toolStrip;
 	private: System::Windows::Forms::ToolStripSplitButton^ Pen;
-
-
 	private: System::Windows::Forms::ToolStripMenuItem^ StraightLine;
-
-
 	private: System::Windows::Forms::ToolStripMenuItem^ dotDashToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripButton^ edgeDetection;
 	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator1;
 	private: System::Windows::Forms::ToolStripButton^ cameraButton;
-	private: System::Windows::Forms::ToolStripButton^ edgeDetection;
 	private: System::Windows::Forms::ToolStripButton^ HistogramButton;
-	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-	private: System::Windows::Forms::Panel^ panel2;
+	private: System::Windows::Forms::ToolStripButton^ ColorPicker;
+	private: System::Windows::Forms::ToolStripButton^ ColorBanner;
+
+	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator3;
+	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator2;
+	private: System::Windows::Forms::ToolStripButton^ PaintButton;
+	private: System::Windows::Forms::ToolStripButton^ DrawLine;
+	private: System::Windows::Forms::ToolStripButton^ DrawCircleButton;
+	private: System::Windows::Forms::ToolStripButton^ EllipseButton;
+	private: System::Windows::Forms::ToolStripButton^ SquareButton;
+
+	private: System::Windows::Forms::ToolStripSeparator^ toolStripSeparator4;
+	private: System::Windows::Forms::SplitContainer^ splitContainer1;
+	private: System::Windows::Forms::SplitContainer^ splitContainer2;
+	private: System::Windows::Forms::Label^ Size;
+
+	private: System::Windows::Forms::SplitContainer^ splitContainer3;
+	private: System::Windows::Forms::SplitContainer^ splitContainer4;
+	private: System::Windows::Forms::Label^ SizeOfLine;
 	private: System::Windows::Forms::TrackBar^ trackBar1;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ size_label;
-	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Button^ button6;
-	private: System::Windows::Forms::Button^ button2;
-	private: System::Windows::Forms::Button^ button3;
-	private: System::Windows::Forms::Button^ button4;
-	private: System::Windows::Forms::Button^ button5;
-	private: System::Windows::Forms::Button^ button7;
+	private: System::Windows::Forms::StatusStrip^ statusStrip;
+	private: System::Windows::Forms::ToolStripStatusLabel^ statusLabel;
+	private: System::Windows::Forms::ToolStripStatusLabel^ pixelPointLabel;
+	private: System::Windows::Forms::ToolStripStatusLabel^ pixelColorLabel;
+	private: System::Windows::Forms::ToolStripStatusLabel^ imageSizeLabel;
+	private: System::Windows::Forms::ToolStripStatusLabel^ ColorPoint;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -150,7 +192,19 @@ namespace ProgramPainter {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->toolStripContainer1 = (gcnew System::Windows::Forms::ToolStripContainer());
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->statusStrip = (gcnew System::Windows::Forms::StatusStrip());
+			this->statusLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->pixelPointLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->ColorPoint = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->pixelColorLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->imageSizeLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->Size = (gcnew System::Windows::Forms::Label());
+			this->splitContainer3 = (gcnew System::Windows::Forms::SplitContainer());
+			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
+			this->splitContainer4 = (gcnew System::Windows::Forms::SplitContainer());
+			this->SizeOfLine = (gcnew System::Windows::Forms::Label());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -167,48 +221,66 @@ namespace ProgramPainter {
 			this->Pen = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->StraightLine = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dotDashToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->edgeDetection = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->ColorPicker = (gcnew System::Windows::Forms::ToolStripButton());
+			this->ColorBanner = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->PaintButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->DrawLine = (gcnew System::Windows::Forms::ToolStripButton());
+			this->DrawCircleButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->EllipseButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->SquareButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->edgeDetection = (gcnew System::Windows::Forms::ToolStripButton());
 			this->cameraButton = (gcnew System::Windows::Forms::ToolStripButton());
 			this->HistogramButton = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSeparator4 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
-			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->button7 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button6 = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->size_label = (gcnew System::Windows::Forms::Label());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
-			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->toolStripContainer1->BottomToolStripPanel->SuspendLayout();
 			this->toolStripContainer1->ContentPanel->SuspendLayout();
 			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
 			this->toolStripContainer1->SuspendLayout();
-			this->panel1->SuspendLayout();
+			this->statusStrip->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
+			this->splitContainer1->Panel1->SuspendLayout();
+			this->splitContainer1->Panel2->SuspendLayout();
+			this->splitContainer1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer2))->BeginInit();
+			this->splitContainer2->Panel1->SuspendLayout();
+			this->splitContainer2->Panel2->SuspendLayout();
+			this->splitContainer2->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer3))->BeginInit();
+			this->splitContainer3->Panel1->SuspendLayout();
+			this->splitContainer3->Panel2->SuspendLayout();
+			this->splitContainer3->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer4))->BeginInit();
+			this->splitContainer4->Panel1->SuspendLayout();
+			this->splitContainer4->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
 			this->toolStrip->SuspendLayout();
-			this->tableLayoutPanel1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
-			this->panel2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// toolStripContainer1
 			// 
 			// 
+			// toolStripContainer1.BottomToolStripPanel
+			// 
+			this->toolStripContainer1->BottomToolStripPanel->Controls->Add(this->statusStrip);
+			// 
 			// toolStripContainer1.ContentPanel
 			// 
-			this->toolStripContainer1->ContentPanel->Controls->Add(this->tableLayoutPanel1);
-			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(640, 330);
+			this->toolStripContainer1->ContentPanel->Controls->Add(this->splitContainer1);
+			this->toolStripContainer1->ContentPanel->Margin = System::Windows::Forms::Padding(4);
+			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(853, 388);
 			this->toolStripContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->toolStripContainer1->Location = System::Drawing::Point(0, 0);
+			this->toolStripContainer1->Margin = System::Windows::Forms::Padding(4);
 			this->toolStripContainer1->Name = L"toolStripContainer1";
-			this->toolStripContainer1->Size = System::Drawing::Size(640, 381);
+			this->toolStripContainer1->Size = System::Drawing::Size(853, 469);
 			this->toolStripContainer1->TabIndex = 0;
 			this->toolStripContainer1->Text = L"toolStripContainer1";
 			// 
@@ -217,25 +289,161 @@ namespace ProgramPainter {
 			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->menuStrip1);
 			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->toolStrip);
 			// 
-			// panel1
+			// statusStrip
 			// 
-			this->panel1->AutoScroll = true;
-			this->panel1->Controls->Add(this->pictureBox1);
-			this->panel1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->panel1->Location = System::Drawing::Point(183, 3);
-			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(454, 324);
-			this->panel1->TabIndex = 0;
+			this->statusStrip->Dock = System::Windows::Forms::DockStyle::None;
+			this->statusStrip->ImageScalingSize = System::Drawing::Size(20, 20);
+			this->statusStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
+				this->statusLabel, this->pixelPointLabel,
+					this->ColorPoint, this->pixelColorLabel, this->imageSizeLabel
+			});
+			this->statusStrip->Location = System::Drawing::Point(0, 0);
+			this->statusStrip->Name = L"statusStrip";
+			this->statusStrip->Size = System::Drawing::Size(853, 26);
+			this->statusStrip->TabIndex = 0;
+			// 
+			// statusLabel
+			// 
+			this->statusLabel->Name = L"statusLabel";
+			this->statusLabel->Size = System::Drawing::Size(549, 20);
+			this->statusLabel->Spring = true;
+			this->statusLabel->Text = L"Status Label";
+			// 
+			// pixelPointLabel
+			// 
+			this->pixelPointLabel->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pixelPointLabel.Image")));
+			this->pixelPointLabel->Name = L"pixelPointLabel";
+			this->pixelPointLabel->Size = System::Drawing::Size(53, 20);
+			this->pixelPointLabel->Text = L"X, Y";
+			this->pixelPointLabel->Visible = false;
+			// 
+			// ColorPoint
+			// 
+			this->ColorPoint->Name = L"ColorPoint";
+			this->ColorPoint->Size = System::Drawing::Size(37, 20);
+			this->ColorPoint->Text = L"       ";
+			this->ColorPoint->Visible = false;
+			// 
+			// pixelColorLabel
+			// 
+			this->pixelColorLabel->Name = L"pixelColorLabel";
+			this->pixelColorLabel->Size = System::Drawing::Size(99, 20);
+			this->pixelColorLabel->Text = L"RGB=[R, G, B]";
+			this->pixelColorLabel->Visible = false;
+			// 
+			// imageSizeLabel
+			// 
+			this->imageSizeLabel->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageSizeLabel.Image")));
+			this->imageSizeLabel->Name = L"imageSizeLabel";
+			this->imageSizeLabel->Size = System::Drawing::Size(61, 20);
+			this->imageSizeLabel->Text = L"WxH";
+			this->imageSizeLabel->Visible = false;
+			// 
+			// splitContainer1
+			// 
+			this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->splitContainer1->Location = System::Drawing::Point(0, 0);
+			this->splitContainer1->Name = L"splitContainer1";
+			this->splitContainer1->Orientation = System::Windows::Forms::Orientation::Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this->splitContainer1->Panel1->Controls->Add(this->splitContainer2);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this->splitContainer1->Panel2->Controls->Add(this->pictureBox1);
+			this->splitContainer1->Size = System::Drawing::Size(853, 388);
+			this->splitContainer1->SplitterDistance = 25;
+			this->splitContainer1->TabIndex = 0;
+			// 
+			// splitContainer2
+			// 
+			this->splitContainer2->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->splitContainer2->Location = System::Drawing::Point(0, 0);
+			this->splitContainer2->Name = L"splitContainer2";
+			// 
+			// splitContainer2.Panel1
+			// 
+			this->splitContainer2->Panel1->Controls->Add(this->Size);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this->splitContainer2->Panel2->Controls->Add(this->splitContainer3);
+			this->splitContainer2->Size = System::Drawing::Size(853, 25);
+			this->splitContainer2->SplitterDistance = 60;
+			this->splitContainer2->TabIndex = 4;
+			// 
+			// Size
+			// 
+			this->Size->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom));
+			this->Size->AutoSize = true;
+			this->Size->Location = System::Drawing::Point(12, 9);
+			this->Size->Name = L"Size";
+			this->Size->Size = System::Drawing::Size(33, 16);
+			this->Size->TabIndex = 0;
+			this->Size->Text = L"Size";
+			this->Size->Click += gcnew System::EventHandler(this, &MyForm::label1_Click_1);
+			// 
+			// splitContainer3
+			// 
+			this->splitContainer3->Location = System::Drawing::Point(0, 0);
+			this->splitContainer3->Name = L"splitContainer3";
+			// 
+			// splitContainer3.Panel1
+			// 
+			this->splitContainer3->Panel1->Controls->Add(this->trackBar1);
+			// 
+			// splitContainer3.Panel2
+			// 
+			this->splitContainer3->Panel2->Controls->Add(this->splitContainer4);
+			this->splitContainer3->Size = System::Drawing::Size(724, 40);
+			this->splitContainer3->SplitterDistance = 280;
+			this->splitContainer3->TabIndex = 0;
+			// 
+			// trackBar1
+			// 
+			this->trackBar1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->trackBar1->Location = System::Drawing::Point(0, 0);
+			this->trackBar1->Name = L"trackBar1";
+			this->trackBar1->Size = System::Drawing::Size(280, 40);
+			this->trackBar1->TabIndex = 0;
+			this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::trackBar1_Scroll);
+			// 
+			// splitContainer4
+			// 
+			this->splitContainer4->Location = System::Drawing::Point(0, 0);
+			this->splitContainer4->Name = L"splitContainer4";
+			// 
+			// splitContainer4.Panel1
+			// 
+			this->splitContainer4->Panel1->Controls->Add(this->SizeOfLine);
+			this->splitContainer4->Size = System::Drawing::Size(440, 40);
+			this->splitContainer4->SplitterDistance = 75;
+			this->splitContainer4->TabIndex = 0;
+			// 
+			// SizeOfLine
+			// 
+			this->SizeOfLine->AutoSize = true;
+			this->SizeOfLine->Location = System::Drawing::Point(21, 11);
+			this->SizeOfLine->Name = L"SizeOfLine";
+			this->SizeOfLine->Size = System::Drawing::Size(14, 16);
+			this->SizeOfLine->TabIndex = 1;
+			this->SizeOfLine->Text = L"1";
 			// 
 			// pictureBox1
 			// 
+			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pictureBox1->Location = System::Drawing::Point(0, 0);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(4);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(603, 330);
+			this->pictureBox1->Size = System::Drawing::Size(853, 359);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox_MouseDown);
+			this->pictureBox1->MouseEnter += gcnew System::EventHandler(this, &MyForm::pictureBox_MouseEnter);
+			this->pictureBox1->MouseLeave += gcnew System::EventHandler(this, &MyForm::pictureBox_MouseLeave);
 			this->pictureBox1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox_MouseMove);
 			this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox_MouseUp);
 			// 
@@ -249,7 +457,7 @@ namespace ProgramPainter {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(640, 24);
+			this->menuStrip1->Size = System::Drawing::Size(853, 28);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -260,34 +468,37 @@ namespace ProgramPainter {
 					this->saveToolStripMenuItem, this->saveAsToolStripMenuItem, this->exitToolStripMenuItem
 			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(46, 24);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
 			// openToolStripMenuItem
 			// 
+			this->openToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"openToolStripMenuItem.Image")));
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->openToolStripMenuItem->Text = L"Open";
 			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
+			this->saveToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"saveToolStripMenuItem.Image")));
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveToolStripMenuItem->Text = L"Save";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
+			this->saveAsToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"saveAsToolStripMenuItem.Image")));
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->saveAsToolStripMenuItem->Text = L"Save As";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(114, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 26);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
@@ -298,47 +509,49 @@ namespace ProgramPainter {
 					this->grayToolStripMenuItem, this->hSVToolStripMenuItem
 			});
 			this->convertToolStripMenuItem->Name = L"convertToolStripMenuItem";
-			this->convertToolStripMenuItem->Size = System::Drawing::Size(61, 20);
+			this->convertToolStripMenuItem->Size = System::Drawing::Size(74, 24);
 			this->convertToolStripMenuItem->Text = L"Convert";
 			// 
 			// rGBToolStripMenuItem
 			// 
 			this->rGBToolStripMenuItem->Name = L"rGBToolStripMenuItem";
-			this->rGBToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->rGBToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->rGBToolStripMenuItem->Text = L"RGB";
 			this->rGBToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rGBToolStripMenuItem_Click);
 			// 
 			// grayToolStripMenuItem
 			// 
 			this->grayToolStripMenuItem->Name = L"grayToolStripMenuItem";
-			this->grayToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->grayToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->grayToolStripMenuItem->Text = L"GRAY";
 			this->grayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::grayToolStripMenuItem_Click);
 			// 
 			// hSVToolStripMenuItem
 			// 
 			this->hSVToolStripMenuItem->Name = L"hSVToolStripMenuItem";
-			this->hSVToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->hSVToolStripMenuItem->Size = System::Drawing::Size(128, 26);
 			this->hSVToolStripMenuItem->Text = L"HSV";
 			this->hSVToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::hSVToolStripMenuItem_Click);
 			// 
 			// captureToolStripMenuItem
 			// 
 			this->captureToolStripMenuItem->Name = L"captureToolStripMenuItem";
-			this->captureToolStripMenuItem->Size = System::Drawing::Size(61, 20);
+			this->captureToolStripMenuItem->Size = System::Drawing::Size(75, 24);
 			this->captureToolStripMenuItem->Text = L"Capture";
+			this->captureToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::cameraButton_Click);
 			// 
 			// toolStrip
 			// 
 			this->toolStrip->Dock = System::Windows::Forms::DockStyle::None;
 			this->toolStrip->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
-				this->Pen, this->edgeDetection,
-					this->toolStripSeparator1, this->cameraButton, this->HistogramButton
+			this->toolStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(15) {
+				this->Pen, this->toolStripSeparator1,
+					this->ColorPicker, this->ColorBanner, this->toolStripSeparator2, this->PaintButton, this->DrawLine, this->DrawCircleButton, this->EllipseButton,
+					this->SquareButton, this->toolStripSeparator3, this->edgeDetection, this->cameraButton, this->HistogramButton, this->toolStripSeparator4
 			});
-			this->toolStrip->Location = System::Drawing::Point(3, 24);
+			this->toolStrip->Location = System::Drawing::Point(4, 28);
 			this->toolStrip->Name = L"toolStrip";
-			this->toolStrip->Size = System::Drawing::Size(126, 27);
+			this->toolStrip->Size = System::Drawing::Size(366, 27);
 			this->toolStrip->TabIndex = 1;
 			this->toolStrip->Text = L"toolStrip1";
 			// 
@@ -349,7 +562,7 @@ namespace ProgramPainter {
 			this->Pen->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Pen.Image")));
 			this->Pen->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->Pen->Name = L"Pen";
-			this->Pen->Size = System::Drawing::Size(36, 24);
+			this->Pen->Size = System::Drawing::Size(39, 24);
 			this->Pen->Text = L"toolStripSplitButton1";
 			this->Pen->ButtonClick += gcnew System::EventHandler(this, &MyForm::freeDraw_Click);
 			// 
@@ -357,7 +570,7 @@ namespace ProgramPainter {
 			// 
 			this->StraightLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"StraightLine.Image")));
 			this->StraightLine->Name = L"StraightLine";
-			this->StraightLine->Size = System::Drawing::Size(149, 22);
+			this->StraightLine->Size = System::Drawing::Size(187, 26);
 			this->StraightLine->Text = L"Line";
 			this->StraightLine->Click += gcnew System::EventHandler(this, &MyForm::StraightLine_Click);
 			// 
@@ -365,9 +578,95 @@ namespace ProgramPainter {
 			// 
 			this->dotDashToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dotDashToolStripMenuItem.Image")));
 			this->dotDashToolStripMenuItem->Name = L"dotDashToolStripMenuItem";
-			this->dotDashToolStripMenuItem->Size = System::Drawing::Size(149, 22);
+			this->dotDashToolStripMenuItem->Size = System::Drawing::Size(187, 26);
 			this->dotDashToolStripMenuItem->Text = L"Dot/Dash Line";
 			this->dotDashToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::DashLine_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this->toolStripSeparator1->Name = L"toolStripSeparator1";
+			this->toolStripSeparator1->Size = System::Drawing::Size(6, 27);
+			// 
+			// ColorPicker
+			// 
+			this->ColorPicker->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->ColorPicker->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ColorPicker.Image")));
+			this->ColorPicker->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->ColorPicker->Name = L"ColorPicker";
+			this->ColorPicker->Size = System::Drawing::Size(29, 24);
+			this->ColorPicker->Text = L"ColorPicker";
+			this->ColorPicker->Click += gcnew System::EventHandler(this, &MyForm::colorPickerButton_Click);
+			// 
+			// ColorBanner
+			// 
+			this->ColorBanner->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->ColorBanner->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::None;
+			this->ColorBanner->Enabled = false;
+			this->ColorBanner->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ColorBanner.Image")));
+			this->ColorBanner->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->ColorBanner->Name = L"ColorBanner";
+			this->ColorBanner->Size = System::Drawing::Size(29, 24);
+			this->ColorBanner->Text = L"ColorBanner";
+			// 
+			// toolStripSeparator2
+			// 
+			this->toolStripSeparator2->Name = L"toolStripSeparator2";
+			this->toolStripSeparator2->Size = System::Drawing::Size(6, 27);
+			// 
+			// PaintButton
+			// 
+			this->PaintButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->PaintButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"PaintButton.Image")));
+			this->PaintButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->PaintButton->Name = L"PaintButton";
+			this->PaintButton->Size = System::Drawing::Size(29, 24);
+			this->PaintButton->Text = L"PaintButton";
+			this->PaintButton->Click += gcnew System::EventHandler(this, &MyForm::PaintBucket_Click);
+			// 
+			// DrawLine
+			// 
+			this->DrawLine->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->DrawLine->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"DrawLine.Image")));
+			this->DrawLine->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->DrawLine->Name = L"DrawLine";
+			this->DrawLine->Size = System::Drawing::Size(29, 24);
+			this->DrawLine->Text = L"DrawLine";
+			this->DrawLine->Click += gcnew System::EventHandler(this, &MyForm::DrawLine_Click);
+			// 
+			// DrawCircleButton
+			// 
+			this->DrawCircleButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->DrawCircleButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"DrawCircleButton.Image")));
+			this->DrawCircleButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->DrawCircleButton->Name = L"DrawCircleButton";
+			this->DrawCircleButton->Size = System::Drawing::Size(29, 24);
+			this->DrawCircleButton->Text = L"DrawCircleButton";
+			this->DrawCircleButton->Click += gcnew System::EventHandler(this, &MyForm::CircleLine_Click);
+			// 
+			// EllipseButton
+			// 
+			this->EllipseButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->EllipseButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"EllipseButton.Image")));
+			this->EllipseButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->EllipseButton->Name = L"EllipseButton";
+			this->EllipseButton->Size = System::Drawing::Size(29, 24);
+			this->EllipseButton->Text = L"EllipseButton";
+			this->EllipseButton->Click += gcnew System::EventHandler(this, &MyForm::ellipseLine_Click);
+			// 
+			// SquareButton
+			// 
+			this->SquareButton->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->SquareButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"SquareButton.Image")));
+			this->SquareButton->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->SquareButton->Name = L"SquareButton";
+			this->SquareButton->Size = System::Drawing::Size(29, 24);
+			this->SquareButton->Text = L"SquareButton";
+			this->SquareButton->Click += gcnew System::EventHandler(this, &MyForm::squareLine_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this->toolStripSeparator3->Name = L"toolStripSeparator3";
+			this->toolStripSeparator3->Size = System::Drawing::Size(6, 27);
 			// 
 			// edgeDetection
 			// 
@@ -375,14 +674,9 @@ namespace ProgramPainter {
 			this->edgeDetection->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"edgeDetection.Image")));
 			this->edgeDetection->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->edgeDetection->Name = L"edgeDetection";
-			this->edgeDetection->Size = System::Drawing::Size(24, 24);
+			this->edgeDetection->Size = System::Drawing::Size(29, 24);
 			this->edgeDetection->Text = L"Edge Detection";
 			this->edgeDetection->Click += gcnew System::EventHandler(this, &MyForm::edgeDetection_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this->toolStripSeparator1->Name = L"toolStripSeparator1";
-			this->toolStripSeparator1->Size = System::Drawing::Size(6, 27);
 			// 
 			// cameraButton
 			// 
@@ -390,7 +684,7 @@ namespace ProgramPainter {
 			this->cameraButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"cameraButton.Image")));
 			this->cameraButton->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->cameraButton->Name = L"cameraButton";
-			this->cameraButton->Size = System::Drawing::Size(24, 24);
+			this->cameraButton->Size = System::Drawing::Size(29, 24);
 			this->cameraButton->Text = L"Camera Button";
 			this->cameraButton->Click += gcnew System::EventHandler(this, &MyForm::cameraButton_Click);
 			// 
@@ -400,176 +694,63 @@ namespace ProgramPainter {
 			this->HistogramButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"HistogramButton.Image")));
 			this->HistogramButton->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->HistogramButton->Name = L"HistogramButton";
-			this->HistogramButton->Size = System::Drawing::Size(24, 24);
+			this->HistogramButton->Size = System::Drawing::Size(29, 24);
 			this->HistogramButton->Text = L"toolStripButton2";
 			this->HistogramButton->Click += gcnew System::EventHandler(this, &MyForm::HistogramButton_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this->toolStripSeparator4->Name = L"toolStripSeparator4";
+			this->toolStripSeparator4->Size = System::Drawing::Size(6, 27);
 			// 
 			// openFileDialog
 			// 
 			this->openFileDialog->FileName = L"openFileDialog";
 			// 
-			// tableLayoutPanel1
-			// 
-			this->tableLayoutPanel1->ColumnCount = 2;
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				28.125F)));
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				71.875F)));
-			this->tableLayoutPanel1->Controls->Add(this->panel1, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->panel2, 0, 0);
-			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
-			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
-			this->tableLayoutPanel1->RowCount = 1;
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(640, 330);
-			this->tableLayoutPanel1->TabIndex = 1;
-			// 
-			// button7
-			// 
-			this->button7->Enabled = false;
-			this->button7->ForeColor = System::Drawing::SystemColors::Control;
-			this->button7->Location = System::Drawing::Point(93, 84);
-			this->button7->Name = L"button7";
-			this->button7->Size = System::Drawing::Size(75, 53);
-			this->button7->TabIndex = 16;
-			this->button7->TabStop = false;
-			this->button7->UseMnemonic = false;
-			this->button7->UseVisualStyleBackColor = false;
-			// 
-			// button5
-			// 
-			this->button5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button5.Image")));
-			this->button5->Location = System::Drawing::Point(6, 261);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(75, 53);
-			this->button5->TabIndex = 14;
-			this->button5->UseVisualStyleBackColor = true;
-			this->button5->Click += gcnew System::EventHandler(this, &MyForm::squareLine_Click);
-			// 
-			// button4
-			// 
-			this->button4->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button4.Image")));
-			this->button4->Location = System::Drawing::Point(93, 202);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(75, 53);
-			this->button4->TabIndex = 13;
-			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &MyForm::ellipseLine_Click);
-			// 
-			// button3
-			// 
-			this->button3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button3.Image")));
-			this->button3->Location = System::Drawing::Point(6, 202);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(75, 53);
-			this->button3->TabIndex = 12;
-			this->button3->UseVisualStyleBackColor = true;
-			this->button3->Click += gcnew System::EventHandler(this, &MyForm::CircleLine_Click);
-			// 
-			// button2
-			// 
-			this->button2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button2.Image")));
-			this->button2->Location = System::Drawing::Point(93, 143);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 53);
-			this->button2->TabIndex = 11;
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::DrawLine_Click);
-			// 
-			// button6
-			// 
-			this->button6->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button6.Image")));
-			this->button6->Location = System::Drawing::Point(6, 143);
-			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(75, 53);
-			this->button6->TabIndex = 10;
-			this->button6->UseVisualStyleBackColor = true;
-			this->button6->Click += gcnew System::EventHandler(this, &MyForm::PaintBucket_Click);
-			// 
-			// button1
-			// 
-			this->button1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button1.Image")));
-			this->button1->Location = System::Drawing::Point(6, 84);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 53);
-			this->button1->TabIndex = 5;
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm::colorPickerButton_Click);
-			// 
-			// size_label
-			// 
-			this->size_label->AutoSize = true;
-			this->size_label->Location = System::Drawing::Point(155, 17);
-			this->size_label->Name = L"size_label";
-			this->size_label->Size = System::Drawing::Size(13, 13);
-			this->size_label->TabIndex = 4;
-			this->size_label->Text = L"1";
-			this->size_label->TextAlign = System::Drawing::ContentAlignment::TopRight;
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(3, 17);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(27, 13);
-			this->label1->TabIndex = 3;
-			this->label1->Text = L"Size";
-			// 
-			// trackBar1
-			// 
-			this->trackBar1->Location = System::Drawing::Point(3, 33);
-			this->trackBar1->Minimum = 1;
-			this->trackBar1->Name = L"trackBar1";
-			this->trackBar1->Size = System::Drawing::Size(185, 45);
-			this->trackBar1->TabIndex = 2;
-			this->trackBar1->Value = 1;
-			this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::trackBar1_Scroll);
-			// 
-			// panel2
-			// 
-			this->panel2->Controls->Add(this->trackBar1);
-			this->panel2->Controls->Add(this->label1);
-			this->panel2->Controls->Add(this->size_label);
-			this->panel2->Controls->Add(this->button1);
-			this->panel2->Controls->Add(this->button6);
-			this->panel2->Controls->Add(this->button2);
-			this->panel2->Controls->Add(this->button3);
-			this->panel2->Controls->Add(this->button4);
-			this->panel2->Controls->Add(this->button5);
-			this->panel2->Controls->Add(this->button7);
-			this->panel2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->panel2->Location = System::Drawing::Point(3, 3);
-			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(174, 324);
-			this->panel2->TabIndex = 17;
-			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(640, 381);
+			this->ClientSize = System::Drawing::Size(853, 469);
 			this->Controls->Add(this->toolStripContainer1);
 			this->MainMenuStrip = this->menuStrip1;
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->toolStripContainer1->BottomToolStripPanel->ResumeLayout(false);
+			this->toolStripContainer1->BottomToolStripPanel->PerformLayout();
 			this->toolStripContainer1->ContentPanel->ResumeLayout(false);
 			this->toolStripContainer1->TopToolStripPanel->ResumeLayout(false);
 			this->toolStripContainer1->TopToolStripPanel->PerformLayout();
 			this->toolStripContainer1->ResumeLayout(false);
 			this->toolStripContainer1->PerformLayout();
-			this->panel1->ResumeLayout(false);
-			this->panel1->PerformLayout();
+			this->statusStrip->ResumeLayout(false);
+			this->statusStrip->PerformLayout();
+			this->splitContainer1->Panel1->ResumeLayout(false);
+			this->splitContainer1->Panel2->ResumeLayout(false);
+			this->splitContainer1->Panel2->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->EndInit();
+			this->splitContainer1->ResumeLayout(false);
+			this->splitContainer2->Panel1->ResumeLayout(false);
+			this->splitContainer2->Panel1->PerformLayout();
+			this->splitContainer2->Panel2->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer2))->EndInit();
+			this->splitContainer2->ResumeLayout(false);
+			this->splitContainer3->Panel1->ResumeLayout(false);
+			this->splitContainer3->Panel1->PerformLayout();
+			this->splitContainer3->Panel2->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer3))->EndInit();
+			this->splitContainer3->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->EndInit();
+			this->splitContainer4->Panel1->ResumeLayout(false);
+			this->splitContainer4->Panel1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer4))->EndInit();
+			this->splitContainer4->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->toolStrip->ResumeLayout(false);
 			this->toolStrip->PerformLayout();
-			this->tableLayoutPanel1->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->EndInit();
-			this->panel2->ResumeLayout(false);
-			this->panel2->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -590,6 +771,8 @@ namespace ProgramPainter {
 			pictureBox1->Image = bmp;
 
 			toolStrip->Visible = true;
+			imageSizeLabel->Text = System::String::Format("{0}x{1}", bmp->Width, bmp->Height);
+			imageSizeLabel->Visible = true;
 		}
 	}
 
@@ -699,7 +882,7 @@ namespace ProgramPainter {
 			green = selectedColor.G;
 			blue = selectedColor.B;
 
-			button7->BackColor = selectedColor;
+			ColorBanner->BackColor = selectedColor;
 		}
 	}
 
@@ -817,9 +1000,25 @@ namespace ProgramPainter {
 			}
 		}
 	}
+	private: System::Void pictureBox_MouseEnter(System::Object^ sender, System::EventArgs^ e) {
+		pixelPointLabel->Visible = true;	pixelColorLabel->Visible = true;
+		ColorPoint->Visible = true;
+	}
+	private: System::Void pictureBox_MouseLeave(System::Object^ sender, System::EventArgs^ e) {
+		pixelPointLabel->Visible = false;	pixelColorLabel->Visible = false;
+		ColorPoint->Visible = false;
+	}
 
 	
 	private: System::Void pictureBox_MouseMove(System::Object^ sender, MouseEventArgs^ e) {
+		if (bmp == nullptr) return;
+		if ((e->X >= 0) && (e->X < bmp->Width) && (e->Y >= 0) && (e->Y < bmp->Height)) {
+			pixelPointLabel->Text = System::String::Format("{0}, {1}", e->X, e->Y);
+			Color c = bmp->GetPixel(e->X, e->Y);
+			pixelColorLabel->Text = System::String::Format("RGB=[{0}, {1}, {2}]", c.R, c.G, c.B);
+			ColorPoint->BackColor = c;
+		}
+
 		if ((drawState == DrawState::DrawingLine) || (drawState == DrawState::DrawingEllipse) || (drawState == DrawState::DrawingCircle)
 			|| (drawState == DrawState::DrawingSqaure) || (drawState == DrawState::FreeDrawing))
 			 {
@@ -1020,8 +1219,11 @@ private: System::Void HistogramButton_Click(System::Object^ sender, System::Even
 
 	
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		size_label->Text = System::String::Format("{0}", trackBar1->Value);
+		SizeOfLine->Text = System::String::Format("{0}", trackBar1->Value);
 	}
 
+
+private: System::Void label1_Click_1(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }
